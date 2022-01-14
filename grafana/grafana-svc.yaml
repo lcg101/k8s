@@ -6,8 +6,7 @@ metadata:
   annotations:
       prometheus.io/scrape: 'true'
       prometheus.io/port:   '3000'
-## NodePort
-## 30004(node) -- 3000(svc) -- 3000(pod)
+## NodePort -> 30004(nodeport) -- 3000(service) -- 3000(pod)
 spec:
   selector:
     app: grafana
