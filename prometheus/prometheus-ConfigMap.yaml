@@ -30,8 +30,9 @@ data:
           summary: High Cpu Usage
   prometheus.yml: |-
     global:
-      scrape_interval: 5s
-      evaluation_interval: 5s
+      scrape_interval: 15s
+      evaluation_interval: 15s
+      scrape_timeout: 10s
     rule_files:
       - /etc/prometheus/prometheus.rules
     alerting:
@@ -108,7 +109,7 @@ data:
 
       - job_name: 'kube-state-metrics'
         static_configs:
-          - targets: ['kube-state-metrics.kube-system.svc.cluster.local:8080']
+          - targets: ['kube-state-metrics.monitoring.svc.cluster.local:8080']
 
       - job_name: 'kubernetes-cadvisor'
 
@@ -161,3 +162,22 @@ data:
         - source_labels: [__meta_kubernetes_service_name]
           action: replace
           target_label: kubernetes_name
+
+      - job_name: 'node-exporter'
+        kubernetes_sd_configs:
+        - role: pod
+        relabel_configs:
+        - source_labels: [__meta_kubernetes_pod_label_k8s_app]
+          action: keep
+          regex: node-exporter
+        - source_labels: [__meta_kubernetes_pod_name]
+          action: replace
+          target_label: kubernetes_pod_name
+        - source_labels: [__meta_kubernetes_pod_node_name]
+          action: replace
+          target_label: kubernetes_node
+        - source_labels: [__address__]
+          action: replace
+          target_label: instance
+          regex: ([^:]+)(?::\d+)?
+          replacement: ${1}

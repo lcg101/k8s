@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: node-exporter-config
+  namespace: monitoring
+data:
+  node-exporter.yaml: |
+    collectors:
+      enabled:
+        - cpu
+        - diskstats
+        - filesystem
+        - loadavg
+        - meminfo
+        - netdev
+        - netstat
+        - textfile
+        - time
+        - uname
+        - vmstat 

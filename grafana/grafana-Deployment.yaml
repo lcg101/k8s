@@ -31,3 +31,10 @@ spec:
           value: Admin
         - name: GF_SERVER_ROOT_URL
           value: /
+        volumeMounts:
+        - name: grafana-datasources
+          mountPath: /etc/grafana/provisioning/datasources
+      volumes:
+      - name: grafana-datasources
+        configMap:
+          name: grafana-datasources

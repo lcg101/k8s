@@ -25,19 +25,19 @@ spec:
 ---
 ## Service
 ## Backend : node-exporter
-## namespace : kube-system
+## namespace : monitoring
 apiVersion: v1
 kind: Service
 metadata:
   labels:
     k8s-app: node-exporter
   name: node-exporter
-  namespace: kube-system
+  namespace: monitoring
 spec:
   ports:
   - name: http
     port: 9100
-    nodePort: 31672
+    nodePort: 31673
     protocol: TCP
   type: NodePort
   selector:
